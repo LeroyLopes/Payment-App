@@ -1,0 +1,30 @@
+public class HomeActivity extends AppCompatActivity {
+    private TextView balanceTextView;
+    private Button sendButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        balanceTextView = findViewById(R.id.balance_text_view);
+        sendButton = findViewById(R.id.send_button);
+
+        // Set the balance from user's account
+        balanceTextView.setText("$" + getUserBalance());
+
+        // Open the payment screen when the user taps the "Send" button
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, PaymentActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private double getUserBalance() {
+        // Retrieve the user's account balance from the server
+        return 100.0;
+    }
+}
