@@ -1,0 +1,67 @@
+Copy code
+public class PaymentActivity extends AppCompatActivity {
+    private EditText recipientEditText;
+    private EditText amountEditText;
+    private EditText noteEditText;
+    private Spinner reasonSpinner;
+    private Button sendButton;
+    private Button requestButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_payment);
+
+        recipientEditText = findViewById(R.id.recipient_edit_text);
+        amountEditText = findViewById(R.id.amount_edit_text);
+        noteEditText = findViewById(R.id.note_edit_text);
+        reasonSpinner = findViewById(R.id.reason_spinner);
+        sendButton = findViewById(R.id.send_button);
+        requestButton = findViewById(R.id.request_button);
+
+        // Set up the spinner with a list of common payment reasons
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.payment_reasons, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        reasonSpinner.setAdapter(adapter);
+
+        // Send the payment when the user taps the "Send" button
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String recipient = recipientEditText.getText().toString();
+                double amount = Double.parseDouble(amountEditText.getText().toString());
+                String note = noteEditText.getText().toString();
+                String reason = reasonSpinner.getSelectedItem().toString();
+
+                // Validate the payment details and send the payment
+                if (isValidPayment(recipient, amount)) {
+                    sendPayment(recipient, amount, note, reason);
+                    finish();
+                } else {
+                    Toast.makeText(PaymentActivity.this, "Invalid payment details", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Request payment when the user taps the "Request" button
+        requestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String recipient = recipientEditText.getText().toString();
+                double amount = Double.parseDouble(amountEditText.getText().toString());
+                String note = noteEditText.getText().toString();
+                String reason = reasonSpinner.getSelectedItem().toString();
+
+                // Validate the payment details and send the payment request
+                if (isValidPayment(recipient, amount)) {
+                    requestPayment(recipient, amount, note, reason);
+                    finish();
+                } else {
+                    Toast.makeText(PaymentActivity.this, "Invalid payment details", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private boolean isValidPayment(String recipient
